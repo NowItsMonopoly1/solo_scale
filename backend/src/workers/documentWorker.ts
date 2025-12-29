@@ -3,12 +3,8 @@ import { Queue } from 'bullmq';
 // import { GeminiService } from '../../../services/geminiService.js';
 // import { MessagingService } from '../services/messaging/messagingService.js';
 
-// Redis connection configuration
-const redisConnection = {
-  host: process.env.REDIS_HOST || 'localhost',
-  port: parseInt(process.env.REDIS_PORT || '6379'),
-  password: process.env.REDIS_PASSWORD
-};
+// Redis connection configuration - Use Railway REDIS_URL
+const redisConnection = process.env.REDIS_URL || 'redis://localhost:6379';
 
 // interface DocumentProcessingJob {
 //   leadId: string;
