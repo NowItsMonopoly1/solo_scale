@@ -1,0 +1,5 @@
+{
+  "name": "SoloScale Platform",
+  "description": "The Broker Dashboard for orchestrating AI agents. Features a Speed to Lead agent, Ops agent, and Concierge services powered by Gemini.",
+  "requestFramePermissions": []
+}
