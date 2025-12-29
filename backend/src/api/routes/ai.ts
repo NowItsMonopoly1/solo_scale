@@ -361,15 +361,17 @@ Return a confidence score (0-100) and any warnings about missing data or quality
           model: modelToUse || 'gemini-2.0-flash-exp',
           generationConfig: {
             temperature: 0.7,
-          },
-          systemInstruction: 'You are the SoloScale Speed Agent. Your goal is to qualify leads, provide real-time market data, and be incredibly responsive. Use search grounding for any factual queries about rates, inventory, or market news.',
+          }
         });
 
         const chat = model.startChat({
           history: history
         });
 
-        const result = await chat.sendMessage(message);
+        const systemPrompt = 'You are the SoloScale Speed Agent. Your goal is to qualify leads, provide real-time market data, and be incredibly responsive. Use search grounding for any factual queries about rates, inventory, or market news.\n\n';
+        const fullMessage = systemPrompt + message;
+
+        const result = await chat.sendMessage(fullMessage);
 
         // Extract grounding metadata if it exists
         const groundingChunks = result.response.candidates?.[0]?.groundingMetadata?.groundingChunks;
