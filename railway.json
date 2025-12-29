@@ -1,5 +1,5 @@
 {
-  "$schema": "https://railway.app/fastify.schema.json",
+  "$schema": "https://railway.com/railway.schema.json",
   "build": {
     "builder": "NIXPACKS",
     "buildCommand": "cd backend && npm install && npm run build"
