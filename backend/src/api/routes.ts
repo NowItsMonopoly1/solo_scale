@@ -7,7 +7,6 @@ import { workflowRoutes } from './routes/workflows.js';
 import { templateRoutes } from './routes/templates.js';
 import { integrationRoutes } from './routes/integrations.js';
 import { messagingRoutes } from './routes/messaging.js';
-import { documentProcessingRoutes } from './routes/documentProcessing.js';
 import { aiRoutes } from './routes/ai.js';
 import { partnerRoutes } from './routes/partners.js';
 import { systemHealthRoutes } from './routes/systemHealth.js';
