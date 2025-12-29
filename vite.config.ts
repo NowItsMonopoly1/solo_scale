@@ -22,6 +22,18 @@ export default defineConfig(({ mode }) => {
         alias: {
           '@': path.resolve(__dirname, '.'),
         }
+      },
+      build: {
+        rollupOptions: {
+          output: {
+            manualChunks: {
+              vendor: ['react', 'react-dom'],
+              ui: ['lucide-react', 'chart.js', 'react-chartjs-2'],
+              ai: ['@google/generative-ai']
+            }
+          }
+        },
+        chunkSizeWarningLimit: 1000
       }
     };
 });
