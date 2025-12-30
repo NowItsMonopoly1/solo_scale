@@ -15,7 +15,7 @@ export async function registerRoutes(server: FastifyInstance) {
   await server.register(authRoutes, { prefix: '/auth' });
 
   // AI routes (public for testing)
-  await server.register(async (fastify) => {
+  await server.register((fastify) => {
     fastify.get('/ai/test', async (request, reply) => {
       return reply.send({ message: 'AI routes are working' });
     });
