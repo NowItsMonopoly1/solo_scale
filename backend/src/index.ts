@@ -85,7 +85,7 @@ try {
 
 // Health check
 server.get('/health', async () => {
-  return { status: 'ok', timestamp: new Date().toISOString() };
+  return { status: 'ok', timestamp: new Date().toISOString(), version: 'test' };
 });
 
 // Chat endpoint
