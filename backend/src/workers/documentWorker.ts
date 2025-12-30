@@ -4,7 +4,7 @@ import { Queue } from 'bullmq';
 // import { MessagingService } from '../services/messaging/messagingService.js';
 
 // Redis connection configuration - Use Railway REDIS_URL
-const redisConnection = process.env.REDIS_URL || 'redis://localhost:6379';
+const redisConnection = process.env.REDIS_URL ? { url: process.env.REDIS_URL } : { host: 'localhost', port: 6379 };
 
 // interface DocumentProcessingJob {
 //   leadId: string;
