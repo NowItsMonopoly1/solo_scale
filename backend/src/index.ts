@@ -77,7 +77,11 @@ await server.register(swaggerUi, {
 });
 
 // Register routes
-await registerRoutes(server);
+try {
+  await registerRoutes(server);
+} catch (error) {
+  console.error('Error registering routes:', error);
+}
 
 // Test route
 server.get('/test', async () => {
