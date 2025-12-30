@@ -24,11 +24,11 @@ export async function aiRoutes(fastify: FastifyInstance) {
   const ai = new GoogleGenerativeAI(config.ai.geminiApiKey);
 
   /**
-   * POST /api/ai/extract-document
+   * POST /ai/extract-document
    * Extract structured mortgage data from document
    */
   fastify.post<{ Body: ExtractDocumentBody }>(
-    '/api/ai/extract-document',
+    '/ai/extract-document',
     {
       preHandler: createRateLimitMiddleware(RateLimitPresets.ai),
       schema: {
@@ -202,11 +202,11 @@ IMPORTANT:
   );
 
   /**
-   * POST /api/ai/extract-general-document
+   * POST /ai/extract-general-document
    * Extract structured data from general document types
    */
   fastify.post<{ Body: { fileData: string; mimeType: string; documentType: string } }>(
-    '/api/ai/extract-general-document',
+    '/ai/extract-general-document',
     {
       preHandler: createRateLimitMiddleware(RateLimitPresets.ai),
       schema: {
@@ -315,11 +315,11 @@ Return a confidence score (0-100) and any warnings about missing data or quality
   );
 
   /**
-   * POST /api/ai/chat
+   * POST /ai/chat
    * Chat with Speed Agent (with Google Search grounding)
    */
   fastify.post<{ Body: ChatBody }>(
-    '/api/ai/chat',
+    '/ai/chat',
     {
       preHandler: createRateLimitMiddleware(RateLimitPresets.ai),
       schema: {
@@ -395,11 +395,11 @@ Return a confidence score (0-100) and any warnings about missing data or quality
   );
 
   /**
-   * POST /api/ai/analyze-lead-urgency
+   * POST /ai/analyze-lead-urgency
    * Analyze lead urgency score
    */
   fastify.post<{ Body: { content: string; rawSource: string; reasoningModel?: string } }>(
-    '/api/ai/analyze-lead-urgency',
+    '/ai/analyze-lead-urgency',
     {
       preHandler: createRateLimitMiddleware(RateLimitPresets.ai),
       schema: {
@@ -464,11 +464,11 @@ Determine an urgency score (0-100) and provide a one-sentence summary of your an
   );
 
   /**
-   * POST /api/ai/generate-chaser-sms
+   * POST /ai/generate-chaser-sms
    * Generate automated chaser SMS template
    */
   fastify.post<{ Body: { clientName: string; brokerName: string; missingField: string } }>(
-    '/api/ai/generate-chaser-sms',
+    '/ai/generate-chaser-sms',
     {
       preHandler: createRateLimitMiddleware(RateLimitPresets.ai),
       schema: {

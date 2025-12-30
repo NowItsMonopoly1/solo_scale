@@ -23,7 +23,7 @@ const AppContent: React.FC = () => {
             <h1 className="text-4xl font-black tracking-tighter mb-2">SOLO<span className="text-blue-600">SCALE</span></h1>
             <p className="text-slate-500 text-sm font-medium mb-8">Sign in to your Enterprise Intelligence Hub</p>
             
-            <form onSubmit={(e) => { e.preventDefault(); login(emailInput || 'demo@soloscale.ai'); }} className="space-y-4">
+            <form onSubmit={async (e) => { e.preventDefault(); await login(emailInput || 'demo@soloscale.ai'); }} className="space-y-4">
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Email Workspace</label>
                 <div className="relative">

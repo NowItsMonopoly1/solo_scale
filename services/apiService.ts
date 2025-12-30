@@ -116,10 +116,66 @@ export interface LeadsResponse {
   };
 }
 
+export interface LoginResponse {
+  token: string;
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    role: string;
+    accountId: string;
+  };
+}
+
+export interface RegisterResponse {
+  token: string;
+  user: {
+    id: string;
+    email: string;
+    name: string;
+    role: string;
+    accountId: string;
+  };
+}
+
 export class APIService {
   /**
-   * Extract mortgage document data via backend API
+   * Register a new user
    */
+  static async register(email: string, password: string, name: string): Promise<RegisterResponse> {
+    const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password, name })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Registration failed: ${response.statusText}`);
+    }
+
+    return await response.json();
+  }
+
+  /**
+   * Login user
+   */
+  static async login(email: string, password: string): Promise<LoginResponse> {
+    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Login failed: ${response.statusText}`);
+    }
+
+    return await response.json();
+  }
   static async extractDocument(
     fileData: string,
     mimeType: string,

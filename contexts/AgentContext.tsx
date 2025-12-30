@@ -43,7 +43,7 @@ interface AgentContextType {
   messages: ChatMessage[];
   leads: Lead[];
   isProcessing: boolean;
-  login: (email: string) => void;
+  login: (email: string) => Promise<void>;
   logout: () => void;
   sendMessage: (content: string) => Promise<void>;
   processLeadBatch: (rawLeads: Lead[]) => Promise<void>;
@@ -258,14 +258,50 @@ export const AgentProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     };
   }, [user, subscription, leads, messages, config]);
 
-  const login = useCallback((email: string) => {
-    setUser({
-      id: 'u_' + Math.random().toString(36).substr(2, 9),
-      name: 'Donte Primus',
-      email: email,
-      role: 'owner',
-      avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Donte'
-    });
+  const login = useCallback(async (email: string) => {
+    try {
+      // Try to login first with a default password
+      const loginResponse = await APIService.login(email, 'password123');
+      
+      // Store the JWT token
+      localStorage.setItem('soloscale_auth_token', loginResponse.token);
+      
+      // Set user from response
+      setUser({
+        id: loginResponse.user.id,
+        name: loginResponse.user.name,
+        email: loginResponse.user.email,
+        role: loginResponse.user.role,
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + loginResponse.user.name
+      });
+    } catch (loginError) {
+      try {
+        // If login fails, try to register the user
+        const registerResponse = await APIService.register(email, 'password123', email.split('@')[0]);
+        
+        // Store the JWT token
+        localStorage.setItem('soloscale_auth_token', registerResponse.token);
+        
+        // Set user from response
+        setUser({
+          id: registerResponse.user.id,
+          name: registerResponse.user.name,
+          email: registerResponse.user.email,
+          role: registerResponse.user.role,
+          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + registerResponse.user.name
+        });
+      } catch (registerError) {
+        // If both fail, fall back to mock user for development
+        console.warn('Authentication failed, using mock user:', loginError, registerError);
+        setUser({
+          id: 'u_' + Math.random().toString(36).substr(2, 9),
+          name: email.split('@')[0],
+          email: email,
+          role: 'owner',
+          avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + email.split('@')[0]
+        });
+      }
+    }
   }, []);
 
   const logout = useCallback(() => setUser(null), []);
