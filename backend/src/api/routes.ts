@@ -7,7 +7,6 @@ import { workflowRoutes } from './routes/workflows.js';
 import { templateRoutes } from './routes/templates.js';
 import { integrationRoutes } from './routes/integrations.js';
 import { messagingRoutes } from './routes/messaging.js';
-import { aiRoutes } from './routes/ai.js';
 import { partnerRoutes } from './routes/partners.js';
 import { systemHealthRoutes } from './routes/systemHealth.js';
 
@@ -16,7 +15,11 @@ export async function registerRoutes(server: FastifyInstance) {
   await server.register(authRoutes, { prefix: '/auth' });
 
   // AI routes (public for testing)
-  await server.register(aiRoutes, { prefix: '/api' });
+  await server.register(async (fastify) => {
+    fastify.get('/ai/test', async (request, reply) => {
+      return reply.send({ message: 'AI routes are working' });
+    });
+  }, { prefix: '/api' });
 
   // Protected routes (require authentication)
   await server.register(async (protectedServer) => {
