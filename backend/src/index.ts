@@ -88,11 +88,6 @@ server.get('/health', async () => {
   return { status: 'ok', timestamp: new Date().toISOString(), version: 'test' };
 });
 
-// Chat endpoint
-server.post('/chat', async (request, reply) => {
-  return reply.send({ message: 'Chat endpoint working' });
-});
-
 // Start server
 const start = async () => {
   try {

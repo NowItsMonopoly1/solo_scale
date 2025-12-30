@@ -33,7 +33,7 @@ export function aiRoutes(fastify: FastifyInstance) {
   }
 
   // Test route
-  fastify.get('/test', async (request, reply) => {
+  fastify.get('/api/ai/test', async (request, reply) => {
     return reply.send({ message: 'AI routes are working', hasApiKey: !!ai });
   });
 
@@ -329,11 +329,11 @@ Return a confidence score (0-100) and any warnings about missing data or quality
   );
 
   /**
-   * POST /chat
+   * POST /api/ai/chat
    * Chat with Speed Agent (with Google Search grounding)
    */
   fastify.post<{ Body: ChatBody }>(
-    '/chat',
+    '/api/ai/chat',
     {
       preHandler: createRateLimitMiddleware(RateLimitPresets.ai),
       schema: {
