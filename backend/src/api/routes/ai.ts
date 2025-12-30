@@ -23,6 +23,11 @@ export async function aiRoutes(fastify: FastifyInstance) {
   // Initialize Gemini client (server-side only)
   const ai = new GoogleGenerativeAI(config.ai.geminiApiKey);
 
+  // Test route
+  fastify.get('/ai/test', async (request, reply) => {
+    return reply.send({ message: 'AI routes are working' });
+  });
+
   /**
    * POST /ai/extract-document
    * Extract structured mortgage data from document
