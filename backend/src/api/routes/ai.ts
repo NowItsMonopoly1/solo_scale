@@ -20,21 +20,9 @@ interface ChatBody {
  * Prevents API key exposure in frontend code
  */
 export async function aiRoutes(fastify: FastifyInstance) {
-  // Initialize Gemini client (server-side only)
-  let ai: GoogleGenerativeAI | null = null;
-  try {
-    if (config.ai.geminiApiKey) {
-      ai = new GoogleGenerativeAI(config.ai.geminiApiKey);
-    } else {
-      fastify.log.warn('GEMINI_API_KEY not set, AI routes will not function');
-    }
-  } catch (error) {
-    fastify.log.error(`Failed to initialize Gemini AI: ${(error as Error).message}`);
-  }
-
   // Test route
   fastify.get('/ai/test', async (request, reply) => {
-    return reply.send({ message: 'AI routes are working', hasApiKey: !!ai });
+    return reply.send({ message: 'AI routes are working' });
   });
 
   /**
