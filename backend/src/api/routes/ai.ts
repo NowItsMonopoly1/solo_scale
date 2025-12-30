@@ -33,16 +33,16 @@ export async function aiRoutes(fastify: FastifyInstance) {
   }
 
   // Test route
-  fastify.get('/ai/test', async (request, reply) => {
+  fastify.get('/test', async (request, reply) => {
     return reply.send({ message: 'AI routes are working', hasApiKey: !!ai });
   });
 
   /**
-   * POST /ai/extract-document
+   * POST /extract-document
    * Extract structured mortgage data from document
    */
   fastify.post<{ Body: ExtractDocumentBody }>(
-    '/ai/extract-document',
+    '/extract-document',
     {
       preHandler: createRateLimitMiddleware(RateLimitPresets.ai),
       schema: {
@@ -216,11 +216,11 @@ IMPORTANT:
   );
 
   /**
-   * POST /ai/extract-general-document
+   * POST /extract-general-document
    * Extract structured data from general document types
    */
   fastify.post<{ Body: { fileData: string; mimeType: string; documentType: string } }>(
-    '/ai/extract-general-document',
+    '/extract-general-document',
     {
       preHandler: createRateLimitMiddleware(RateLimitPresets.ai),
       schema: {
@@ -329,11 +329,11 @@ Return a confidence score (0-100) and any warnings about missing data or quality
   );
 
   /**
-   * POST /ai/chat
+   * POST /chat
    * Chat with Speed Agent (with Google Search grounding)
    */
   fastify.post<{ Body: ChatBody }>(
-    '/ai/chat',
+    '/chat',
     {
       preHandler: createRateLimitMiddleware(RateLimitPresets.ai),
       schema: {
@@ -416,11 +416,11 @@ Return a confidence score (0-100) and any warnings about missing data or quality
   );
 
   /**
-   * POST /ai/analyze-lead-urgency
+   * POST /analyze-lead-urgency
    * Analyze lead urgency score
    */
   fastify.post<{ Body: { content: string; rawSource: string; reasoningModel?: string } }>(
-    '/ai/analyze-lead-urgency',
+    '/analyze-lead-urgency',
     {
       preHandler: createRateLimitMiddleware(RateLimitPresets.ai),
       schema: {
@@ -485,11 +485,11 @@ Determine an urgency score (0-100) and provide a one-sentence summary of your an
   );
 
   /**
-   * POST /ai/generate-chaser-sms
+   * POST /generate-chaser-sms
    * Generate automated chaser SMS template
    */
   fastify.post<{ Body: { clientName: string; brokerName: string; missingField: string } }>(
-    '/ai/generate-chaser-sms',
+    '/generate-chaser-sms',
     {
       preHandler: createRateLimitMiddleware(RateLimitPresets.ai),
       schema: {
