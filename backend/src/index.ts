@@ -79,6 +79,11 @@ await server.register(swaggerUi, {
 // Register routes
 await registerRoutes(server);
 
+// Test route
+server.get('/test', async () => {
+  return { message: 'Test route working' };
+});
+
 // Health check
 server.get('/health', async () => {
   return { status: 'ok', timestamp: new Date().toISOString() };
