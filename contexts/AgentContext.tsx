@@ -358,6 +358,14 @@ export const AgentProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setMessages(prev => [...prev, aiMsg]);
     } catch (error) {
       console.error("Chat Error:", error);
+      // Show error message to user
+      const errorMsg: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        role: 'model',
+        content: 'I apologize, but I encountered an error processing your request. Please check your connection and try again.',
+        timestamp: Date.now()
+      };
+      setMessages(prev => [...prev, errorMsg]);
     } finally {
       setIsProcessing(false);
     }
