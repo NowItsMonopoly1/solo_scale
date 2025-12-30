@@ -15,7 +15,7 @@ export async function registerRoutes(server: FastifyInstance) {
   // Auth routes (no prefix - /auth/login, /auth/me)
   await server.register(authRoutes, { prefix: '/auth' });
 
-  // AI routes (temporarily public for testing)
+  // AI routes (public for testing)
   await server.register(aiRoutes);
 
   // Protected routes (require authentication)
