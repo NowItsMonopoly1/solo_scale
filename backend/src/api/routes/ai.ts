@@ -21,11 +21,20 @@ interface ChatBody {
  */
 export async function aiRoutes(fastify: FastifyInstance) {
   // Initialize Gemini client (server-side only)
-  const ai = new GoogleGenerativeAI(config.ai.geminiApiKey);
+  let ai: GoogleGenerativeAI | null = null;
+  try {
+    if (config.ai.geminiApiKey) {
+      ai = new GoogleGenerativeAI(config.ai.geminiApiKey);
+    } else {
+      fastify.log.warn('GEMINI_API_KEY not set, AI routes will not function');
+    }
+  } catch (error) {
+    fastify.log.error(`Failed to initialize Gemini AI: ${(error as Error).message}`);
+  }
 
   // Test route
   fastify.get('/ai/test', async (request, reply) => {
-    return reply.send({ message: 'AI routes are working' });
+    return reply.send({ message: 'AI routes are working', hasApiKey: !!ai });
   });
 
   /**
@@ -360,6 +369,13 @@ Return a confidence score (0-100) and any warnings about missing data or quality
     },
     async (request: FastifyRequest<{ Body: ChatBody }>, reply: FastifyReply) => {
       const { history, message, modelToUse } = request.body;
+
+      if (!ai) {
+        return reply.code(500).send({
+          content: 'AI service is not configured. Please check API key configuration.',
+          citations: []
+        });
+      }
 
       try {
         const model = ai.getGenerativeModel({
