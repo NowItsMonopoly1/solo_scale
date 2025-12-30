@@ -19,7 +19,7 @@ interface ChatBody {
  * AI Routes - Secure Backend Proxy for Gemini API
  * Prevents API key exposure in frontend code
  */
-export async function aiRoutes(fastify: FastifyInstance) {
+export function aiRoutes(fastify: FastifyInstance) {
   // Initialize Gemini client (server-side only)
   let ai: GoogleGenerativeAI | null = null;
   try {
