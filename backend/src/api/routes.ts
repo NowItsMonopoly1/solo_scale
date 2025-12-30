@@ -16,7 +16,11 @@ export async function registerRoutes(server: FastifyInstance) {
   await server.register(authRoutes, { prefix: '/auth' });
 
   // AI routes (public for testing)
-  await server.register(aiRoutes);
+  await server.register(async (fastify) => {
+    fastify.post('/chat', async (request, reply) => {
+      return reply.send({ message: 'Chat endpoint working' });
+    });
+  });
 
   // Protected routes (require authentication)
   await server.register(async (protectedServer) => {
